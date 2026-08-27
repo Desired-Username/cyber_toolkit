@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyber Toolkit — Privacy Policy</title>
+  <style>
+    body {
+      font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #1b1e24;
+    }
+    h1 { font-size: 24px; margin-bottom: 4px; }
+    h2 { font-size: 17px; margin-top: 32px; }
+    .updated { color: #5b6270; font-size: 14px; margin-bottom: 32px; }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 6px; }
+    code {
+      background: #f1f2f4;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    a { color: #1a6fd4; }
+  </style>
+</head>
+<body>
+  <h1>Cyber Toolkit — Privacy Policy</h1>
+  <p class="updated">Last updated: 27 August 2026</p>
+
+  <p>
+    Cyber Toolkit is a browser extension that adds right-click lookups for security and OSINT
+    indicators (CVE IDs, IP addresses, domains, URLs, file hashes, and email addresses). This
+    page explains what data the extension handles and where it goes.
+  </p>
+
+  <h2>We (the developer) do not collect anything</h2>
+  <p>
+    Cyber Toolkit has no server of its own, no analytics, and no tracking. Nothing you select,
+    type, or configure in the extension is ever sent to us. We have no way to see how you use it.
+  </p>
+
+  <h2>What the extension sends, and to whom</h2>
+  <p>
+    When you right-click selected text or a link and choose a lookup, the extension sends
+    <strong>only that selected text (or link)</strong> to the one third-party service you chose,
+    directly from your browser, over HTTPS. Nothing is sent in the background or without you
+    explicitly choosing a lookup. Depending on which lookup you pick, that may be one of:
+  </p>
+  <ul>
+    <li>National Vulnerability Database (NVD) — CVE details</li>
+    <li>RDAP (rdap.org) and ipwho.is — IP/domain registration info and geolocation</li>
+    <li>VirusTotal, AbuseIPDB, GreyNoise, Barracuda Central, ThreatFox — IP/domain reputation</li>
+    <li>URLhaus, MalwareBazaar — domain/file-hash threat intelligence</li>
+    <li>crt.sh, SSL Labs, Shodan InternetDB, Wayback Machine — domain/IP recon</li>
+    <li>urlscan.io — URL scan history</li>
+    <li>MXToolbox, EmailRep.io — email/domain checks</li>
+    <li>Microsoft Learn, MDN, man7.org, Oracle Docs — error code references</li>
+  </ul>
+  <p>
+    Each of these is a separate, independent service with its own privacy policy governing what
+    it does with a query it receives. Cyber Toolkit does not control or see their responses
+    beyond displaying them to you.
+  </p>
+
+  <h2>Optional API keys</h2>
+  <p>
+    Some services (VirusTotal, AbuseIPDB, GreyNoise, abuse.ch, EmailRep.io) support an optional
+    API key you can add in the extension's Options page for richer results. If you add one:
+  </p>
+  <ul>
+    <li>It is stored only in your browser's local extension storage (<code>chrome.storage.local</code>).</li>
+    <li>It is sent only to the specific service it belongs to, only when you run that lookup.</li>
+    <li>It is never sent to us, logged, or shown anywhere in full once saved (only partially masked).</li>
+    <li>You can remove it at any time from the Options page.</li>
+  </ul>
+
+  <h2>Local storage</h2>
+  <p>
+    The extension uses browser storage for two purposes only: saving any API keys you choose to
+    add (as above), and briefly holding a lookup's result so it can be displayed on the results
+    page you're shown after clicking a menu item. Nothing here syncs to an account or leaves your
+    browser except the queries described above.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    If this policy changes, the "Last updated" date above will change accordingly.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy can be sent to the contact email listed on the extension's Chrome
+    Web Store / Edge Add-ons listing.
+  </p>
+</body>
+</html>
