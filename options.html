@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Cyber Toolkit — Options</title>
+  <link rel="stylesheet" href="results.css" />
+  <style>
+    body { max-width: 560px; }
+    label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    input[type="password"] {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+    }
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-right: 8px;
+    }
+    button.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .status-text { font-size: 13px; color: var(--good); margin-left: 4px; }
+    .status-text.error { color: var(--bad); }
+    .section-title { font-size: 16px; margin: 24px 0 4px; }
+    details.card summary {
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      list-style: none;
+      user-select: none;
+    }
+    details.card summary::-webkit-details-marker { display: none; }
+    details.card summary::before {
+      content: "▸";
+      display: inline-block;
+      width: 1.1em;
+      transition: transform 0.15s ease;
+    }
+    details.card[open] summary::before {
+      transform: rotate(90deg);
+    }
+    details.card[open] summary {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .muted ul { margin: 6px 0 0; padding-left: 20px; }
+    .muted ul li { margin-bottom: 2px; }
+    .key-display {
+      font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 14px;
+      background: rgba(128, 128, 128, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cyber Toolkit — Options</h1>
+    <div class="muted">
+      CVE, IP, domain, URL, email, and error code lookups use the following free public
+      services, and need no key:
+      <ul>
+        <li><strong>NVD</strong> — CVE details</li>
+        <li><strong>RDAP</strong> — IP and domain registration info</li>
+        <li><strong>ipwho.is</strong> — IP geolocation</li>
+        <li><strong>Microsoft Learn</strong> — Microsoft/Windows error code search</li>
+        <li><strong>MDN (Mozilla)</strong> — HTTP status code reference</li>
+        <li><strong>man7.org</strong> — Linux/POSIX errno reference</li>
+        <li><strong>Oracle Docs</strong> — Oracle database error code reference</li>
+        <li><strong>Barracuda Central</strong> — IP reputation (DNS blocklist, no account exists to add a key for)</li>
+        <li><strong>MXToolbox</strong> — email domain blacklist/MX check</li>
+        <li><strong>urlscan.io</strong> — URL scan search (screenshot, behavior)</li>
+        <li><strong>crt.sh</strong> — certificate transparency log search for a domain</li>
+        <li><strong>SSL Labs (Qualys)</strong> — domain TLS/SSL configuration grade</li>
+        <li><strong>Shodan InternetDB</strong> — IP exposure (open ports, hostnames, known CVEs)</li>
+        <li><strong>Wayback Machine</strong> — archived-snapshot check for a domain or URL</li>
+      </ul>
+    </div>
+  </header>
+
+  <h2 class="section-title">Service API Keys</h2>
+  <p class="muted">
+    Reputation lookups for IP, domain, and file hashes work either way: without a key, they
+    open that service's own public lookup page in a new tab; with a key added below, they
+    instead show a richer summary right in the extension. Your key is sent only to the service
+    provider over HTTPS when you run a lookup, is stored only in this browser profile, and is
+    never logged. Once saved, it is only ever shown partially masked.
+  </p>
+
+  <details class="card">
+    <summary>VirusTotal (optional)</summary>
+    <p class="muted">
+      Used for IP, domain, and file hash reputation. Free at
+      <a href="https://www.virustotal.com/gui/join-us" target="_blank" rel="noopener noreferrer">virustotal.com</a>
+      (public API tier: ~4 requests/min, 500/day). Without a key, these open virustotal.com directly.
+    </p>
+
+    <div id="vt-saved-view" hidden>
+      <div class="key-display" id="vt-masked"></div>
+      <button id="vt-change" class="secondary">Change key</button>
+      <button id="vt-remove" class="secondary">Remove key</button>
+    </div>
+
+    <div id="vt-edit-view">
+      <label for="vt-key">VirusTotal API key</label>
+      <input type="password" id="vt-key" autocomplete="off" spellcheck="false" placeholder="Paste your API key" />
+      <div>
+        <button id="vt-save">Save</button>
+        <button id="vt-cancel" class="secondary" hidden>Cancel</button>
+        <span id="vt-status" class="status-text"></span>
+      </div>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>AbuseIPDB (optional)</summary>
+    <p class="muted">
+      Used for IP reputation (abuse confidence score, report history). Free at
+      <a href="https://www.abuseipdb.com/register" target="_blank" rel="noopener noreferrer">abuseipdb.com</a>
+      (free tier: 1,000 checks/day). Without a key, this opens abuseipdb.com directly.
+    </p>
+
+    <div id="abuseipdb-saved-view" hidden>
+      <div class="key-display" id="abuseipdb-masked"></div>
+      <button id="abuseipdb-change" class="secondary">Change key</button>
+      <button id="abuseipdb-remove" class="secondary">Remove key</button>
+    </div>
+
+    <div id="abuseipdb-edit-view">
+      <label for="abuseipdb-key">AbuseIPDB API key</label>
+      <input type="password" id="abuseipdb-key" autocomplete="off" spellcheck="false" placeholder="Paste your API key" />
+      <div>
+        <button id="abuseipdb-save">Save</button>
+        <button id="abuseipdb-cancel" class="secondary" hidden>Cancel</button>
+        <span id="abuseipdb-status" class="status-text"></span>
+      </div>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>abuse.ch (optional)</summary>
+    <p class="muted">
+      One free Auth-Key from
+      <a href="https://auth.abuse.ch/" target="_blank" rel="noopener noreferrer">auth.abuse.ch</a>
+      covers three separate lookups, all sharing this same key: <strong>URLhaus</strong> (domain
+      reputation — known malware-distribution hosts), <strong>ThreatFox</strong> (IP/domain/hash
+      IOC lookup), and <strong>MalwareBazaar</strong> (malware sample lookup by hash). Without a
+      key, each opens its own public abuse.ch page directly instead.
+    </p>
+
+    <div id="abusech-saved-view" hidden>
+      <div class="key-display" id="abusech-masked"></div>
+      <button id="abusech-change" class="secondary">Change key</button>
+      <button id="abusech-remove" class="secondary">Remove key</button>
+    </div>
+
+    <div id="abusech-edit-view">
+      <label for="abusech-key">abuse.ch Auth-Key</label>
+      <input type="password" id="abusech-key" autocomplete="off" spellcheck="false" placeholder="Paste your Auth-Key" />
+      <div>
+        <button id="abusech-save">Save</button>
+        <button id="abusech-cancel" class="secondary" hidden>Cancel</button>
+        <span id="abusech-status" class="status-text"></span>
+      </div>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>GreyNoise Community (optional)</summary>
+    <p class="muted">
+      Used for IP reputation (internet background noise / scanner classification). Unlike the
+      others above, GreyNoise's Community lookup already works with no key at all — adding one
+      (free at
+      <a href="https://viz.greynoise.io/account/api-key" target="_blank" rel="noopener noreferrer">greynoise.io</a>)
+      just raises the rate limit.
+    </p>
+
+    <div id="greynoise-saved-view" hidden>
+      <div class="key-display" id="greynoise-masked"></div>
+      <button id="greynoise-change" class="secondary">Change key</button>
+      <button id="greynoise-remove" class="secondary">Remove key</button>
+    </div>
+
+    <div id="greynoise-edit-view">
+      <label for="greynoise-key">GreyNoise API key (optional)</label>
+      <input type="password" id="greynoise-key" autocomplete="off" spellcheck="false" placeholder="Paste your API key" />
+      <div>
+        <button id="greynoise-save">Save</button>
+        <button id="greynoise-cancel" class="secondary" hidden>Cancel</button>
+        <span id="greynoise-status" class="status-text"></span>
+      </div>
+    </div>
+  </details>
+
+  <details class="card">
+    <summary>EmailRep.io (required)</summary>
+    <p class="muted">
+      Used for email address reputation (malicious activity, breach exposure, disposable-address
+      detection). Unlike the other services here, EmailRep.io has no public webpage to fall back
+      to — a key is required for any result, not just for a richer one. See
+      <a href="https://github.com/sublime-security/emailrep.io" target="_blank" rel="noopener noreferrer"
+        >github.com/sublime-security/emailrep.io</a
+      >
+      for how to request a free key.
+    </p>
+
+    <div id="emailrep-saved-view" hidden>
+      <div class="key-display" id="emailrep-masked"></div>
+      <button id="emailrep-change" class="secondary">Change key</button>
+      <button id="emailrep-remove" class="secondary">Remove key</button>
+    </div>
+
+    <div id="emailrep-edit-view">
+      <label for="emailrep-key">EmailRep.io API key</label>
+      <input type="password" id="emailrep-key" autocomplete="off" spellcheck="false" placeholder="Paste your API key" />
+      <div>
+        <button id="emailrep-save">Save</button>
+        <button id="emailrep-cancel" class="secondary" hidden>Cancel</button>
+        <span id="emailrep-status" class="status-text"></span>
+      </div>
+    </div>
+  </details>
+
+  <script src="options.js"></script>
+</body>
+</html>
